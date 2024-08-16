@@ -10,11 +10,13 @@ import dev.Abhishek.EcomOrderService.entity.Order;
 import dev.Abhishek.EcomOrderService.entity.OrderStatus;
 import dev.Abhishek.EcomOrderService.exception.OrderNotFoundException;
 import dev.Abhishek.EcomOrderService.repository.OrderRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Service
 public class PaymentServiceImpl implements PaymentService {
     private OrderRepository orderRepository;
     private ProductClient productClient;

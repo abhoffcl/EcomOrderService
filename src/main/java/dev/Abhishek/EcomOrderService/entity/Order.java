@@ -1,5 +1,6 @@
 package dev.Abhishek.EcomOrderService.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import lombok.Getter;
@@ -10,11 +11,10 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "ECOM_ORDER")
 public class Order extends BaseModel{
-    private UUID id;
     private UUID userId;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<OrderItem> items;
     private double totalPrice;
     private OrderStatus status;
