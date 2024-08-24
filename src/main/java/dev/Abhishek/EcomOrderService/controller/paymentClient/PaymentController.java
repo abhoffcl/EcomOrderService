@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/orderNotify")
-public class PaymentNotificationController {
-    private PaymentService paymentNotificationService;
+public class PaymentController {
+    private PaymentService paymentService;
 
-    public PaymentNotificationController(PaymentService paymentNotificationService) {
-        this.paymentNotificationService = paymentNotificationService;
+    public PaymentController(PaymentService paymentNotificationService) {
+        this.paymentService = paymentNotificationService;
     }
 
     @PostMapping("/update-status")
     public ResponseEntity<Void>handleOrderStatusChange(@RequestBody OrderStatusUpdateRequestDto orderStatusUpdateRequestDto){
-        paymentNotificationService.handleOrderStatusChange(orderStatusUpdateRequestDto);
+        paymentService.handleOrderStatusChange(orderStatusUpdateRequestDto);
         return ResponseEntity.ok().build();
     }
 

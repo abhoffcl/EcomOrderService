@@ -8,6 +8,8 @@ import dev.Abhishek.EcomOrderService.dto.paymentClientDto.PaymentRequestDto;
 import dev.Abhishek.EcomOrderService.dto.productClientDto.FailedOrderProductsDto;
 import dev.Abhishek.EcomOrderService.entity.Order;
 import dev.Abhishek.EcomOrderService.entity.OrderStatus;
+import dev.Abhishek.EcomOrderService.exception.ClientException.PaymentServiceException;
+import dev.Abhishek.EcomOrderService.exception.ClientException.ProductServiceException;
 import dev.Abhishek.EcomOrderService.exception.OrderNotFoundException;
 import dev.Abhishek.EcomOrderService.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void handleOrderStatusChange(OrderStatusUpdateRequestDto orderStatusUpdateRequestDto) {
+    public void handleOrderStatusChange(OrderStatusUpdateRequestDto orderStatusUpdateRequestDto)throws OrderNotFoundException , ProductServiceException {
         // update order status
         // if failed .make a call to product service via Product service client.
         UUID orderId =UUID.fromString(orderStatusUpdateRequestDto.getOrderId());
@@ -54,7 +56,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     }
     @Override
-    public String makePayment(UUID orderId, double totalPrice, PlaceOrderRequestDto placeOrderRequestDto) {
+    public String makePayment(UUID orderId, double totalPrice, PlaceOrderRequestDto placeOrderRequestDto)throws PaymentServiceException {
         PaymentRequestDto paymentRequestDto = new PaymentRequestDto();
         paymentRequestDto.setUserId(placeOrderRequestDto.getUserId());
         paymentRequestDto.setOrderId(orderId.toString());

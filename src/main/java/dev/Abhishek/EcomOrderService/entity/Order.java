@@ -1,8 +1,6 @@
 package dev.Abhishek.EcomOrderService.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +15,7 @@ public class Order extends BaseModel{
     @ManyToMany(cascade = CascadeType.ALL)
     private List<OrderItem> items;
     private double totalPrice;
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
 }
