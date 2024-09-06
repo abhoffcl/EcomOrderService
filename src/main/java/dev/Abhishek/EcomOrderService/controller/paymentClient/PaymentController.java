@@ -1,7 +1,7 @@
 package dev.Abhishek.EcomOrderService.controller.paymentClient;
 
 import dev.Abhishek.EcomOrderService.dto.paymentClientDto.OrderStatusUpdateRequestDto;
-import dev.Abhishek.EcomOrderService.service.paymentClient.PaymentService;
+import dev.Abhishek.EcomOrderService.service.payment.PaymentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

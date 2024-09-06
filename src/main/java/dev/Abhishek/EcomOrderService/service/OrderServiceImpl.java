@@ -1,17 +1,14 @@
 package dev.Abhishek.EcomOrderService.service;
 
-import dev.Abhishek.EcomOrderService.client.PaymentClient;
 import dev.Abhishek.EcomOrderService.dto.OrderItemDto;
 import dev.Abhishek.EcomOrderService.dto.PlaceOrderRequestDto;
-import dev.Abhishek.EcomOrderService.dto.paymentClientDto.PaymentRequestDto;
 import dev.Abhishek.EcomOrderService.entity.Order;
 import dev.Abhishek.EcomOrderService.entity.OrderItem;
 import dev.Abhishek.EcomOrderService.entity.OrderStatus;
 import dev.Abhishek.EcomOrderService.repository.OrderRepository;
-import dev.Abhishek.EcomOrderService.service.paymentClient.PaymentService;
+import dev.Abhishek.EcomOrderService.service.payment.PaymentService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -19,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
     private PaymentService paymentService;
     private OrderRepository orderRepository;
 

@@ -1,4 +1,4 @@
-package dev.Abhishek.EcomOrderService.service.paymentClient;
+package dev.Abhishek.EcomOrderService.service.payment;
 
 import dev.Abhishek.EcomOrderService.client.PaymentClient;
 import dev.Abhishek.EcomOrderService.client.ProductClient;
@@ -12,6 +12,7 @@ import dev.Abhishek.EcomOrderService.exception.ClientException.PaymentServiceExc
 import dev.Abhishek.EcomOrderService.exception.ClientException.ProductServiceException;
 import dev.Abhishek.EcomOrderService.exception.OrderNotFoundException;
 import dev.Abhishek.EcomOrderService.repository.OrderRepository;
+import dev.Abhishek.EcomOrderService.service.kafkaProducer.KafkaMessagingService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,11 +24,13 @@ public class PaymentServiceImpl implements PaymentService {
     private OrderRepository orderRepository;
     private ProductClient productClient;
     private PaymentClient paymentClient;
+    private KafkaMessagingService kafkaMessagingService;
 
-    public PaymentServiceImpl(OrderRepository orderRepository, ProductClient productClient, PaymentClient paymentClient) {
+    public PaymentServiceImpl(OrderRepository orderRepository, ProductClient productClient, PaymentClient paymentClient, KafkaMessagingService kafkaMessagingService) {
         this.orderRepository = orderRepository;
         this.productClient = productClient;
         this.paymentClient = paymentClient;
+        this.kafkaMessagingService = kafkaMessagingService;
     }
 
     @Override
@@ -49,10 +52,13 @@ public class PaymentServiceImpl implements PaymentService {
                     })
                     .collect(Collectors.toList());
             productClient.notifyOrderFailure(failedOrderProductsInfoDtos);
+            orderRepository.save(savedOrder);
         }
-        else
+        else{
             savedOrder.setStatus(OrderStatus.COMPLETED);
-        orderRepository.save(savedOrder);
+            orderRepository.save(savedOrder);
+            kafkaMessagingService.send(orderStatusUpdateRequestDto);
+        }
 
     }
     @Override

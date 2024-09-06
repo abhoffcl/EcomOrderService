@@ -37,4 +37,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exceptionResponseDto, HttpStatus.NOT_FOUND);
 
     }
+    @ExceptionHandler(KafkaMessagingException.class)
+    public ResponseEntity handleKafkaMessagingException(KafkaMessagingException ke){
+        ExceptionResponseDto exceptionResponseDto = new ExceptionResponseDto(
+                ke.getMessage(),
+                401
+        );
+        return new ResponseEntity<>(exceptionResponseDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
